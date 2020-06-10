@@ -31,8 +31,29 @@ class TrackList
 
   def add_tracks_to_favorite
     browser.goto('https://music.youtube.com/search?q=l')
-    browser.text_field(class: 'ytmusic-search-box').set "placebo meds"
+    browser.div(class: 'search-box').text_field(class: 'ytmusic-search-box').set "placebo meds"
     browser.send_keys :enter
+
+    sleep 1
+
+    songs_button = browser.link(class: ['yt-simple-endpoint', 'style-scope', 'ytmusic-chip-cloud-chip-renderer'])
+
+    if songs_button.title == 'Show song results'
+      songs_button.click
+    end
+
+    song = browser.elements(tag_name: 'ytmusic-responsive-list-item-renderer', class: ['style-scope', 'ytmusic-shelf-renderer']).to_a[0]
+    song.hover
+
+    song_menu_button = song.element(tag_name: 'ytmusic-menu-renderer', class: ['menu', 'style-scope', 'ytmusic-responsive-list-item-renderer'])
+    song_menu_button.click
+
+    song_menu = browser.element(tag_name: 'paper-listbox', class: ['style-scope', 'ytmusic-menu-popup-renderer'], role: 'listbox')
+    like_button = song_menu.elements(tag_name: 'ytmusic-toggle-menu-service-item-renderer', class: ['ytmusic-menu-popup-renderer']).to_a[1]
+
+    if like_button.element(tag_name: 'yt-formatted-string').text == 'Add to liked songs'
+      like_button.click
+    end  
   end
 end
 
