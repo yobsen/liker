@@ -4,9 +4,8 @@
 pkgs.mkShell {
   # nixpkgs.config.allowUnfree = true; 
   buildInputs = with pkgs; [
-    pry
+    # pry
     openssl # can be specific version too
-    ruby # ruby_2_3 # specific ruby version
     zlib
     libiconv # nokogiri
     # postgresql # pg

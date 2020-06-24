@@ -2,10 +2,12 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord'
+gem 'activerecord', '~> 6.0', '>= 6.0.3.1'
 gem 'pry'
 gem 'sqlite3'
-gem 'standalone_migrations'
+gem 'rake'
+gem 'sqlite3'
+gem 'standalone_migrations', '~> 6.0'
 gem 'watir'
 gem 'selenium-webdriver'
 gem 'webdrivers'
