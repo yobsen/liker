@@ -3,9 +3,6 @@
 require 'active_record'
 
 class Track < ActiveRecord::Base
-  validates :artist, presence: true
-  validates :track, presence: true
-
   def self.upsert(artist, track, found_by_track = false, found_by_artist = false)
     track = Track.where(
       artist: artist,
