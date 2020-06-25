@@ -1,3 +1,4 @@
 .env
+.envrc
 liker.sql
 shell.nix
