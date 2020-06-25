@@ -11,5 +11,7 @@ Currently supports transferring from:
 
 Create an `.env` file, in which you should specify your path to google chrome profile and vk playlist:
 
-`bundle exec pry 'app/liker.rb'`
+![env](https://imgur.com/5I56xfy.png)
+
+`bundle exec pry app/liker.rb`
 🙌🏻
