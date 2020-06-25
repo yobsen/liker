@@ -1,3 +1,4 @@
+require 'dotenv/load'
 require 'watir'
 require 'active_record'
 require_relative 'app/models/track'
@@ -23,8 +24,7 @@ class Liker
   end
 
   def browser
-    switches = %W[--user-data-dir=/home/manya/.config/google-chrome]
-
+    switches = %W[--user-data-dir=#{ENV['CHROME_PROFILE_PATH']}]
     @browser ||= Watir::Browser.new :chrome, switches: switches
   end
 
@@ -120,4 +120,4 @@ class Liker
   end
 end
 
-Liker.start('https://vk.com/audios339740727')
+test = Liker.start(ENV['VK_PLAYLIST_PATH'])
