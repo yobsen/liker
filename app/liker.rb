@@ -15,7 +15,7 @@ ActiveRecord::Base.establish_connection(db_configuration['development'])
 class Liker
   def self.start(vk_root)
     liker = Liker.new(vk_root)
-    liker.fetch_tracks_from_root
+    # liker.fetch_tracks_from_root
     liker.add_tracks_to_favorite
   end
 
@@ -30,7 +30,7 @@ class Liker
 
   def fetch_tracks_from_root
     browser.goto(@audios_root)
-    1000.times { browser.scroll.to :bottom }
+    100.times { browser.scroll.to :bottom }
 
     track_nodes = browser.divs(class: 'audio_row__inner')
     track_nodes.each do |track_node|
@@ -66,20 +66,18 @@ class Liker
     songs_button = browser.link(class: ['yt-simple-endpoint', 'style-scope', 'ytmusic-chip-cloud-chip-renderer'])
     if songs_button.title == 'Show song results'
       songs_button.click
-    else 
-      browser&.close
-      binding.pry
+      sleep 1
+
+      song = browser.elements(tag_name: 'ytmusic-responsive-list-item-renderer', class: ['style-scope', 'ytmusic-shelf-renderer']).to_a[0]
+      song.hover
+
+      song_menu_button = song.element(tag_name: 'ytmusic-menu-renderer', class: ['menu', 'style-scope', 'ytmusic-responsive-list-item-renderer'])
+      song_menu_button.click
+      sleep 1
+      return true
+    else
+      return false
     end
-
-    sleep 10
-
-    song = browser.elements(tag_name: 'ytmusic-responsive-list-item-renderer', class: ['style-scope', 'ytmusic-shelf-renderer']).to_a[0]
-    song.hover
-
-    song_menu_button = song.element(tag_name: 'ytmusic-menu-renderer', class: ['menu', 'style-scope', 'ytmusic-responsive-list-item-renderer'])
-    song_menu_button.click
-
-    sleep 5
   end
 
   def add_tracks_to_favorite
@@ -91,9 +89,13 @@ class Liker
 
       browser.div(class: 'search-box').text_field(class: 'ytmusic-search-box').set "#{track.artist} #{track.track}"
       browser.send_keys :enter
-      sleep 10
+      sleep 1
 
-      allocate_like_button
+      is_button_allocated = allocate_like_button
+      
+      if is_button_allocated == false 
+        next
+      end
 
       song_menu = browser.element(tag_name: 'paper-listbox', class: ['style-scope', 'ytmusic-menu-popup-renderer'], role: 'listbox')
       like_button = song_menu.elements(tag_name: 'ytmusic-toggle-menu-service-item-renderer', class: ['ytmusic-menu-popup-renderer']).to_a[1]
@@ -120,4 +122,4 @@ class Liker
   end
 end
 
-test = Liker.start(ENV['VK_PLAYLIST_PATH'])
+Liker.start(ENV['VK_PLAYLIST_PATH'])
