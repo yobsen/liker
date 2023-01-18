@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'activerecord', '~> 6.0', '>= 6.0.3.1'
+gem 'activerecord', '~> 6.1'
 gem 'pry'
 gem 'sqlite3'
 gem 'rake'
